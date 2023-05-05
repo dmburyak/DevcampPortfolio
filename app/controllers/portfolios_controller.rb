@@ -11,13 +11,13 @@ class PortfoliosController < ApplicationController
   def create
     @portfolio_item = Portfolio.new(params.require(:portfolio).permit(:title, :subtitle, :body))
 
-  respond_to do |format|
-    if @portfolio_item.save
-      format.html { redirect_to portfolios_path, notice: "Portfolio_item was successfully created." }
-    else
-      format.html { render :new, status: :unprocessable_entity }
+    respond_to do |format|
+      if @portfolio_item.save
+        format.html { redirect_to portfolios_path, notice: "Portfolio_item was successfully created." }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+      end
     end
-  end
   end
 
   def edit
@@ -33,6 +33,16 @@ class PortfoliosController < ApplicationController
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def destroy
+    @portfolio_item = Portfolio.find(params[:id])
+
+    @portfolio_item.destroy
+
+    respond_to do |format|
+      format.html { redirect_to portfolios_path, notice: "Portfolio was successfully destroyed." }
     end
   end
 
